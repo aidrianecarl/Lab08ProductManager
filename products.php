@@ -2,7 +2,9 @@
 $page='Products';
 
 include 'includes/products.php'; // products functions
-$products = getAllProducts();
+
+$search = isset($_GET['q']) ? $_GET['q'] : "";
+$products = getAllProducts($search); 
 ?>
 <!doctype html>
 <html lang="en">
@@ -25,15 +27,26 @@ $products = getAllProducts();
         <h1 class="h2">Products</h1>        
       </div>
       <div class="table-responsive">
-        <form>
-          <div class="form-row">
-            <div class="form-group col-md-3">
-              <label for="code">Search</label>
-              <input type="text" class="form-control" id="productcode">
-              <input type="submit" class="btn btn-primary" value="Search">
-            </div>
-            </div>
-            </form>
+        <form method="GET">
+          <label for="productcode">Search</label>
+
+          <div class="input-group mb-3" style="max-width: 350px;">
+            <input 
+              type="text" 
+              class="form-control" 
+              id="productcode" 
+              name="q" 
+              placeholder="Enter code or description"
+              value="<?= isset($_GET['q']) ? $_GET['q'] : '' ?>"
+            >
+
+            <button class="btn btn-primary" type="submit">
+              Search
+            </button>
+          </div>
+        </form>
+      </div>
+
         <table class="table table-striped table-sm">
           <thead>
             <tr>
@@ -72,7 +85,7 @@ $products = getAllProducts();
 
             }
             ?>
-            <tr>
+            <!-- <tr>
               <td>1</td>
               <td>11111</td>
               <td>Colgate 250 ml</td>
@@ -122,7 +135,7 @@ $products = getAllProducts();
                   </label>
                 </div>
               </td>
-            </tr>            
+            </tr>             -->
           </tbody>
         </table>
       </div>

@@ -17,15 +17,15 @@
           
            <li class="nav-item">
             <a class="nav-link <?=$page=='Customers'?'active':''?>" href="customers.php">
-              <span data-feather="shopping-cart"></span>
+              <span data-feather="users"></span>
               Customers
             </a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="customers.html">
-              <span data-feather="shopping-cart"></span>
-              Customers
+            <a class="nav-link <?=$page=='Orders'?'active':''?>" href="orders.php">
+              <span data-feather="file-text"></span>
+              Orders
             </a>
           </li>
         </ul>

@@ -3,11 +3,11 @@
 
 include 'connect.php';
 
-function getAllOrders() {
+function getAllOrders($search = '', $dateFrom = '', $dateTo = '') {
 
     $cn = ConnectDB(); // connect to DB
 
-    // Join invoice + customer
+    // Base query
     $query = "
         SELECT 
             i.inv_number,
@@ -19,9 +19,37 @@ function getAllOrders() {
             c.cus_lname
         FROM invoice i
         LEFT JOIN customer c ON i.cus_code = c.cus_code
-        ORDER BY i.inv_number ASC
+        WHERE 1
     ";
 
+    // 🔍 SEARCH FILTER
+    if (!empty($search)) {
+        $search = $cn->real_escape_string($search);
+        $query .= "
+            AND (
+                i.inv_number LIKE '%$search%' OR
+                c.cus_fname LIKE '%$search%' OR
+                c.cus_lname LIKE '%$search%'
+            )
+        ";
+    }
+
+    // 📅 DATE FROM FILTER
+    if (!empty($dateFrom)) {
+        $dateFrom = $cn->real_escape_string($dateFrom);
+        $query .= " AND i.inv_date >= '$dateFrom 00:00:00' ";
+    }
+
+    // 📅 DATE TO FILTER
+    if (!empty($dateTo)) {
+        $dateTo = $cn->real_escape_string($dateTo);
+        $query .= " AND i.inv_date <= '$dateTo 23:59:59' ";
+    }
+
+    // Sorting
+    $query .= " ORDER BY i.inv_number ASC";
+
+    // Execute
     $result = $cn->query($query);
 
     // Convert rows → array

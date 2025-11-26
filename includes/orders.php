@@ -22,7 +22,7 @@ function getAllOrders($search = '', $dateFrom = '', $dateTo = '') {
         WHERE 1
     ";
 
-    // 🔍 SEARCH FILTER
+    // SEARCH FILTER
     if (!empty($search)) {
         $search = $cn->real_escape_string($search);
         $query .= "
@@ -34,13 +34,13 @@ function getAllOrders($search = '', $dateFrom = '', $dateTo = '') {
         ";
     }
 
-    // 📅 DATE FROM FILTER
+    // DATE FROM FILTER
     if (!empty($dateFrom)) {
         $dateFrom = $cn->real_escape_string($dateFrom);
         $query .= " AND i.inv_date >= '$dateFrom 00:00:00' ";
     }
 
-    // 📅 DATE TO FILTER
+    // DATE TO FILTER
     if (!empty($dateTo)) {
         $dateTo = $cn->real_escape_string($dateTo);
         $query .= " AND i.inv_date <= '$dateTo 23:59:59' ";
